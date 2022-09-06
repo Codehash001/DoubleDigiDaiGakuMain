@@ -94,13 +94,31 @@ export const presaleMint = async (mintAmount) => {
   )
 
   // Set up our Ethereum transaction
+
+//web3
+
+
+
+const priceWei = web3.utils.toWei(config.preSalePrice.toString() );
+
+const totalValue = window.BigInt( priceWei.toString() ) * window.BigInt( tokens.toString() );
+
+const gasUnits = await nftContract.methods.preSale(mintAmount).estimateGas({
+value: totalValue.toString()
+});
+
+
+const gasLimit = window.BigInt( gasUnits.toString() ) * window.BigInt(11) / window.BigInt(10);
+
+
+
   const tx = {
     to: config.contractAddress,
     from: window.ethereum.selectedAddress,
     value: parseInt(
       web3.utils.toWei(String(config.preSalePrice*mintAmount), 'ether')
     ).toString(16), // hex
-   gas: String(3000 * mintAmount),
+    gas: String(gasLimit),
     data: nftContract.methods
       .presaleMint(mintAmount, proof)
       .encodeABI(),
@@ -173,13 +191,24 @@ export const publicMint = async (mintAmount) => {
   
 
   // Set up our Ethereum transaction
+
+  const priceWei = web3.utils.toWei(config.publicSalePrice.toString() );
+
+const totalValue = window.BigInt( priceWei.toString() ) * window.BigInt( tokens.toString() );
+
+const gasUnits = await nftContract.methods.publicSale(mintAmount).estimateGas({
+value: totalValue.toString()
+});
+
+
+const GasLimit = window.BigInt( gasUnits.toString() ) * window.BigInt(11) / window.BigInt(10);
   const tx = {
     to: config.contractAddress,
     from: window.ethereum.selectedAddress,
     value: parseInt(
       web3.utils.toWei(String(config.publicSalePrice*mintAmount), 'ether')
     ).toString(16), // hex
-    gas: String(3000 * mintAmount),
+    gas: String(GasLimit),
     data: nftContract.methods.publicSaleMint(mintAmount).encodeABI(),
     nonce: nonce.toString(16)
   }
