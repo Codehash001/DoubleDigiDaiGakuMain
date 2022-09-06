@@ -12,7 +12,7 @@ const config = {
 
 const onboardOptions = {
   dappId: process.env.NEXT_PUBLIC_DAPP_ID,
-  networkId: 1, // 
+  networkId: 1, 
   darkMode: true,
   walletSelect: {
     description:'Plaese select a wallet',
