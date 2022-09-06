@@ -101,7 +101,7 @@ export const presaleMint = async (mintAmount) => {
 
 const priceWei = web3.utils.toWei(config.preSalePrice.toString() );
 
-const totalValue = window.BigInt( priceWei.toString() ) * window.BigInt( tokens.toString() );
+const totalValue = window.BigInt( priceWei.toString() ) * window.BigInt(mintAmount.toString() );
 
 const gasUnits = await nftContract.methods.preSale(mintAmount).estimateGas({
 value: totalValue.toString()
@@ -194,14 +194,14 @@ export const publicMint = async (mintAmount) => {
 
   const priceWei = web3.utils.toWei(config.publicSalePrice.toString() );
 
-const totalValue = window.BigInt( priceWei.toString() ) * window.BigInt( tokens.toString() );
+const TotalValue = window.BigInt( priceWei.toString() ) * window.BigInt( mintAmount.toString() );
 
-const gasUnits = await nftContract.methods.publicSale(mintAmount).estimateGas({
-value: totalValue.toString()
+const GasUnits = await nftContract.methods.publicSale().estimateGas({
+value: TotalValue.toString()
 });
 
 
-const GasLimit = window.BigInt( gasUnits.toString() ) * window.BigInt(11) / window.BigInt(10);
+const GasLimit = window.BigInt( GasUnits.toString() ) * window.BigInt(11) / window.BigInt(10);
   const tx = {
     to: config.contractAddress,
     from: window.ethereum.selectedAddress,
